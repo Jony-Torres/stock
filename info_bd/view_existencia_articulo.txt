@@ -1,0 +1,19 @@
+CREATE OR REPLACE
+VIEW `compra_venta`.`view_existencia_articulo` 
+AS(
+SELECT e.cod_sucursal,e.desc_sucursal,e.cod_deposito,e.desc_deposito,e.cod_articulo,e.cod_un_medida,e.nro_lote,e.desc_articulo,SUM(e.cant_compra)-SUM(e.cant_venta) existencia
+FROM (
+SELECT 	exi.cod_sucursal,suc.desc_sucursal,exi.cod_deposito,dar.desc_deposito,exi.cod_articulo,exi.cod_un_medida,exi.nro_lote,art.desc_articulo,IFNULL(exi.cantidad,0) cant_compra,0 cant_venta
+FROM 	existencia_articulo exi LEFT JOIN articulo art 	ON exi.cod_articulo=art.cod_articulo AND exi.cod_un_medida=art.cod_un_med AND exi.nro_lote=art.nro_lote
+	LEFT JOIN sucursal suc ON exi.cod_sucursal=suc.cod_sucursal
+	LEFT JOIN deposito_articulo dar ON exi.cod_deposito=dar.cod_deposito
+
+WHERE  	exi.tipo_transacc=3
+UNION
+SELECT 	exi.cod_sucursal,suc.desc_sucursal,exi.cod_deposito,dar.desc_deposito,exi.cod_articulo,exi.cod_un_medida,exi.nro_lote,art.desc_articulo,0 cant_compra,ISNULL(exi.cantidad) cant_venta
+FROM 	existencia_articulo exi LEFT JOIN articulo art 	ON exi.cod_articulo=art.cod_articulo AND exi.cod_un_medida=art.cod_un_med AND exi.nro_lote=art.nro_lote 
+	LEFT JOIN sucursal suc ON exi.cod_sucursal=suc.cod_sucursal
+	LEFT JOIN deposito_articulo dar ON exi.cod_deposito=dar.cod_deposito
+WHERE  	exi.tipo_transacc=4) e
+GROUP BY e.cod_sucursal,e.desc_sucursal,e.cod_deposito,e.desc_deposito,e.cod_articulo,e.cod_un_medida,e.nro_lote,e.desc_articulo
+ORDER BY 5);

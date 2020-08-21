@@ -1,0 +1,78 @@
+DELIMITER $$
+
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_comprob_venta_cab_det` AS (
+SELECT
+  `com`.`cod_sucursal`        AS `cod_sucursal`,
+  `suc`.`desc_sucursal`       AS `desc_sucursal`,
+  (CASE WHEN (`com`.`tipo_comprobante` = 'FCO') THEN 'FACTURA CONTADO' WHEN (`com`.`tipo_comprobante` = 'FCR') THEN 'FACTURA CREDITO' WHEN (`com`.`tipo_comprobante` = 'AJU') THEN 'NOTA DE AJUSTE STOCK' ELSE 'COMP NO ENCONTRADO' END) AS `tipo_comprobante`,
+  `com`.`ser_comprobante`     AS `ser_comprobante`,
+  `com`.`nro_comprobante`     AS `nro_comprobante`,
+  DATE_FORMAT(`com`.`fecha_comprobante`,'%d/%m/%Y') AS `fecha_comprobante`,
+  `com`.`cod_cliente`         AS `cod_cliente`,
+  `per`.`nombre`              AS `nombre_cliente`,
+  `com`.`cod_cobrador`        AS `cod_cobrador`,
+  `pco`.`nombre`              AS `nombre_cobrador`,
+  `com`.`cod_vendedor`        AS `cod_vendedor`,
+  `pve`.`nombre`              AS `nombre_vendedor`,
+  `com`.`cod_condicion_venta` AS `cod_condicion_venta`,
+  `con`.`descripcion`         AS `descripcion`,
+  `com`.`cod_moneda`          AS `cod_moneda`,
+  `mon`.`desc_moneda`         AS `desc_moneda`,
+  `dco`.`cod_articulo`        AS `cod_articulo`,
+  `dco`.`cod_un_med`          AS `cod_un_med`,
+  `dco`.`nro_lote`            AS `nro_lote`,
+  `dco`.`cantidad`            AS `cantidad`,
+  `art`.`desc_articulo`       AS `desc_articulo`,
+  `dco`.`precio_unitario`     AS `precio_unitario`,
+  `dco`.`importe_total`       AS `importe_total`,
+  `dco`.`total_iva5`          AS `total_iva5`,
+  `dco`.`total_iva10`         AS `total_iva10`,
+  `dco`.`gravada_5`           AS `gravada_5`,
+  `dco`.`gravada_10`          AS `gravada_10`,
+  `com`.`total_gravada`       AS `total_gravada`,
+  `com`.`total_iva`           AS `total_iva`,
+  `com`.`total_comprobante`   AS `total_comprobante`,
+  `com`.`cod_deposito`        AS `cod_deposito`,
+  `dep`.`desc_deposito`       AS `desc_deposito`,
+  `com`.`estado`              AS `estado`,
+  `com`.`tipo_comprobante`    AS `tip_comp`,
+  `com`.`fecha_comprobante`   AS `fec_comp`,
+  `com`.`cod_mot_ent_sal_art`   AS `trans_ent_sal_art`,
+  `tra`.`descripcion`   AS `desc_trans_ent_sal_art`,
+  `com`.`cod_sub_mot_ent_sal_art`   AS `sub_trans_ent_sal_art`,
+  `sub`.`descripcion`   AS `desc_sub_trans_ent_sal_art`
+FROM ((((((((((((((`comprobante_cabecera_venta` `com`
+              LEFT JOIN `comprobante_detalle_venta` `dco`
+                ON (((`com`.`tipo_comprobante` = `dco`.`tipo_comprobante`)
+                     AND (`com`.`ser_comprobante` = `dco`.`ser_comprobante`)
+                     AND (`com`.`nro_comprobante` = `dco`.`nro_comprobante`))))
+             LEFT JOIN `articulo` `art`
+               ON (((`dco`.`cod_articulo` = `art`.`cod_articulo`)
+                    AND (`dco`.`cod_un_med` = `art`.`cod_un_med`)
+                    AND (`dco`.`nro_lote` = `art`.`nro_lote`))))
+            LEFT JOIN `cliente` `cli`
+              ON ((`com`.`cod_cliente` = `cli`.`cod_cliente`)))
+           LEFT JOIN `persona` `per`
+             ON ((`cli`.`cod_persona` = `per`.`cod_persona`)))
+          LEFT JOIN `sucursal` `suc`
+            ON ((`com`.`cod_sucursal` = `suc`.`cod_sucursal`)))
+         LEFT JOIN `deposito_articulo` `dep`
+           ON ((`com`.`cod_deposito` = `dep`.`cod_deposito`)))
+        LEFT JOIN `cobrador` `cob`
+          ON ((`com`.`cod_cobrador` = `cob`.`cod_cobrador`)))
+       LEFT JOIN `persona` `pco`
+         ON ((`cob`.`cod_persona` = `pco`.`cod_persona`)))
+      LEFT JOIN `vendedor` `ven`
+        ON ((`com`.`cod_vendedor` = `ven`.`cod_vendedor`)))
+     LEFT JOIN `persona` `pve`
+       ON ((`ven`.`cod_persona` = `pve`.`cod_persona`)))
+    LEFT JOIN `condicion_venta` `con`
+      ON ((`com`.`cod_condicion_venta` = `con`.`cod_condicion`)))
+   LEFT JOIN `moneda` `mon`
+     ON ((`cli`.`cod_moneda` = `mon`.`cod_moneda`)))
+   LEFT JOIN `tipo_transaccion` `tra`
+     ON ((`com`.`cod_mot_ent_sal_art` = `tra`.`cod_tipo_trans`)))
+    LEFT JOIN `sub_tipo_transaccion` `sub`
+    ON ((`com`.`cod_mot_ent_sal_art` = `sub`.`cod_tipo_trans`) AND (`com`.`cod_sub_mot_ent_sal_art` = `sub`.`cod_sub_tipo_trans`))))$$
+
+DELIMITER ;

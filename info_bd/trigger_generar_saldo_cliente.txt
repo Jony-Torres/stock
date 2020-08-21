@@ -1,0 +1,17 @@
+DELIMITER $$
+
+USE `compra_venta`$$
+
+DROP TRIGGER /*!50032 IF EXISTS */ `trigger_generar_saldo_cliente`$$
+
+CREATE
+    /*!50017 DEFINER = 'root'@'localhost' */
+    TRIGGER `trigger_generar_saldo_cliente` AFTER INSERT ON `comprobante_cabecera_venta` 
+    FOR EACH ROW BEGIN
+IF new.tipo_comprobante = 'FCR' AND IFNULL(new.cod_condicion_venta,0) > 0 THEN
+	CALL generar_saldo_cliente(new.tipo_comprobante,new.ser_comprobante,new.nro_comprobante,new.cod_condicion_venta,new.cod_sucursal,new.cod_cliente,new.fecha_comprobante,new.monto_cuota,new.cod_moneda,new.monto_cuota,new.cod_usuario,new.comentario);
+END IF;
+END;
+$$
+
+DELIMITER ;

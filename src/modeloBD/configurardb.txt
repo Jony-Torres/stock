@@ -1,0 +1,7 @@
+databaseclass=compra_venta.modeloBD.conexion
+jdbc=jdbc:mysql://
+driver=com.mysql.jdbc.Driver
+host=localhost
+database=compra_venta
+username=
+password=

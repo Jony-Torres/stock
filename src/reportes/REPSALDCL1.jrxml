@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPSALDCL1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb0dfb01-0853-47c2-9ac1-c046995574c1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="P_COD_CLIENTE" class="java.lang.Integer"/>
+	<parameter name="P_FECHA_DESDE" class="java.lang.String"/>
+	<parameter name="P_FECHA_HASTA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante) grupo_saldo,
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.cod_cliente,
+	v.nombre,
+	SUM(v.saldo_cuota) saldo_cuota
+FROM view_saldo_cliente v
+WHERE  	(v.cod_cliente = $P{P_COD_CLIENTE}  OR  $P{P_COD_CLIENTE}  IS NULL)
+	AND ((v.fec_venc >= $P{P_FECHA_DESDE} OR $P{P_FECHA_DESDE} IS NULL) AND (v.fec_venc <= $P{P_FECHA_HASTA} OR $P{P_FECHA_HASTA} IS NULL))
+	AND v.saldo_cuota > 0
+GROUP BY CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante),
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.cod_cliente,
+	v.nombre
+ORDER BY  4,1,3]]>
+	</queryString>
+	<field name="grupo_saldo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="grupo_saldo"/>
+	</field>
+	<field name="ser_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ser_comprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="nro_comprobante" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="cod_cliente" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cod_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+	</field>
+	<field name="saldo_cuota" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="saldo_cuota"/>
+	</field>
+	<variable name="saldo_cuota1" class="java.math.BigDecimal" resetType="Group" resetGroup="grup_cliente" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_cuota}]]></variableExpression>
+	</variable>
+	<group name="grup_cliente">
+		<groupExpression><![CDATA[$F{cod_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="22" y="3" width="30" height="12" uuid="5824697d-04cf-4209-a138-ad95ee829ac0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cod_cliente}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="55" y="3" width="200" height="12" uuid="efb53954-9255-458c-9e9c-8a0fdfef406b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField pattern="###,###.##">
+					<reportElement x="453" y="4" width="100" height="12" uuid="4e635bfb-d055-4f15-ada3-0e5139fcb830">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldo_cuota1}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="371" y="1" width="182" height="1" uuid="a2bb1155-794d-4037-a47b-eb5b4d4d0a8c">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="371" y="4" width="80" height="12" uuid="25d27e4f-8bc3-4461-b2c9-b1dc55f8acfc">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Cliente:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="25" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="3" y="5" width="100" height="12" uuid="b43aa0b4-8926-4038-967e-117817a5b6e6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="451" y="3" width="60" height="12" uuid="f6145a78-bbde-418f-9657-1e795754901d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="3" width="40" height="12" uuid="979769d4-6241-47b8-8996-236e1470d637">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="230" y="3" width="150" height="20" uuid="402c58fa-0ea8-44d1-8c31-72e1f05fe9f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen Saldo Cliente]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="112" y="3" width="35" height="12" uuid="acadde3d-d82d-4309-9767-d932e92922e3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="3" width="60" height="12" uuid="1d0c0a71-2805-4e4d-9dee-5522e1990d37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="3" width="50" height="12" uuid="b583b006-36ce-4d96-bd74-7658faa3abfb">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="18" width="554" height="1" uuid="507ff16b-4de4-4547-b9d9-e36d3c9f05ac"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="226" y="4" width="50" height="12" uuid="d0a6be6b-a081-4a3f-84ba-5bac70e7cf33">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grupo_saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###.##">
+				<reportElement x="453" y="4" width="100" height="12" uuid="898b73bc-1eb3-4a5e-99b7-b7690d53099a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo_cuota}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="226" y="1" width="328" height="1" uuid="f8285404-6b29-4d85-bf1a-30e35d1daed5">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="12" splitType="Stretch"/>
+	</summary>
+</jasperReport>

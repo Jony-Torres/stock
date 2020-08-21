@@ -1,0 +1,12 @@
+CREATE OR replace VIEW `view_grupo_usuario` AS(select ag.cod_grupo,
+		gu.desc_grupo,
+		ag.cod_modulo,
+		ms.desc_modulo,
+		ag.desc_formulario,
+        (CASE WHEN (ag.mostrar_en_menu = 'S') THEN 'SI' ELSE 'NO' END) menu,
+        (CASE WHEN (ag.puede_borrar = 'S') THEN 'SI' ELSE 'NO' END) borrar,
+        (CASE WHEN (ag.puede_consul = 'S') THEN 'SI' ELSE 'NO' END) consultar,
+        (CASE WHEN (ag.puede_insert = 'S') THEN 'SI' ELSE 'NO' END) insertar,
+        (CASE WHEN (ag.puede_modif = 'S') THEN 'SI' ELSE 'NO' END) modificar
+from acceso_grupo ag left join grupo_usuario gu on ag.cod_grupo=gu.cod_grupo
+		left join modulo_sistema ms on ag.cod_modulo=ms.cod_modulo)

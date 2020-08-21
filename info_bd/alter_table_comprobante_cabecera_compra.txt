@@ -1,0 +1,3 @@
+ALTER TABLE `compra_venta`.`comprobante_cabecera_compra`   
+  ADD COLUMN `cod_mot_ent_sal_art` INT(5) NULL AFTER `pagado`,
+  ADD COLUMN `cod_sub_mot_ent_sal_art` INT(5) NULL AFTER `cod_mot_ent_sal_art`;

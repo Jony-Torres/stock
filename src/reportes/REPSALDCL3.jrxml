@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPSALDCL3" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb0dfb01-0853-47c2-9ac1-c046995574c1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="net.sf.jasperreports.data.adapter" value="DataAdapter.xml"/>
+	<parameter name="P_DIAS" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT 	'HASTA 30 DIAS',
+	TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) dias,
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante) grupo_saldo,
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y') fec_ult_recibo,
+	v.saldo_cuota,
+	SUM(IFNULL(v.saldo_cuota,0)) saldo_cuota
+FROM view_saldo_cliente v LEFT JOIN recibo_detalle_venta r ON (v.tipo_comprobante = r.tipo_comprobante_ref AND v.ser_comprobante = r.ser_comprobante_ref AND v.nro_comprobante = r.nro_comprobante_ref)
+	LEFT JOIN recibo_venta_cabecera c ON(r.tipo_recibo = c.tipo_recibo AND r.ser_recibo = c.ser_recibo AND r.nro_recibo = c.nro_recibo)
+WHERE  TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) = 30
+	AND v.saldo_cuota > 0
+	AND ($P{P_DIAS} = 30  OR  $P{P_DIAS}  IS NULL)
+GROUP BY TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()),
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante),
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y') 
+UNION ALL
+SELECT 	'HASTA 60 DIAS',
+	TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) dias,
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante) grupo_saldo,
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y') fec_ult_recibo,
+	v.saldo_cuota,
+	SUM(IFNULL(v.saldo_cuota,0)) saldo_cuota
+FROM view_saldo_cliente v LEFT JOIN recibo_detalle_venta r ON (v.tipo_comprobante = r.tipo_comprobante_ref AND v.ser_comprobante = r.ser_comprobante_ref AND v.nro_comprobante = r.nro_comprobante_ref)
+	LEFT JOIN recibo_venta_cabecera c ON(r.tipo_recibo = c.tipo_recibo AND r.ser_recibo = c.ser_recibo AND r.nro_recibo = c.nro_recibo)
+WHERE  TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) BETWEEN 31 AND 60
+	AND v.saldo_cuota > 0
+	AND ($P{P_DIAS} = 60  OR  $P{P_DIAS}  IS NULL)
+GROUP BY TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()),
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante),
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y')
+UNION ALL
+SELECT 	'HASTA 90 DIAS',
+	TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) dias,
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante) grupo_saldo,
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y') fec_ult_recibo,
+	v.saldo_cuota,
+	SUM(IFNULL(v.saldo_cuota,0)) saldo_cuota
+FROM view_saldo_cliente v LEFT JOIN recibo_detalle_venta r ON (v.tipo_comprobante = r.tipo_comprobante_ref AND v.ser_comprobante = r.ser_comprobante_ref AND v.nro_comprobante = r.nro_comprobante_ref)
+	LEFT JOIN recibo_venta_cabecera c ON(r.tipo_recibo = c.tipo_recibo AND r.ser_recibo = c.ser_recibo AND r.nro_recibo = c.nro_recibo)
+WHERE  TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) BETWEEN 61 AND 90
+	AND v.saldo_cuota > 0
+	AND ($P{P_DIAS} = 90  OR  $P{P_DIAS}  IS NULL)
+GROUP BY TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()),
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante),
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y')
+UNION ALL
+SELECT 	'MAS DE 90 DIAS',
+	TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) dias,
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante) grupo_saldo,
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	v.fec_ult_recibo,
+	v.saldo_cuota,
+	SUM(IFNULL(v.saldo_cuota,0)) saldo_cuota
+FROM view_saldo_cliente v LEFT JOIN recibo_detalle_venta r ON (v.tipo_comprobante = r.tipo_comprobante_ref AND v.ser_comprobante = r.ser_comprobante_ref AND v.nro_comprobante = r.nro_comprobante_ref)
+	LEFT JOIN recibo_venta_cabecera c ON(r.tipo_recibo = c.tipo_recibo AND r.ser_recibo = c.ser_recibo AND r.nro_recibo = c.nro_recibo)
+WHERE  TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()) BETWEEN 91 AND 99999
+	AND v.saldo_cuota > 0
+	AND ($P{P_DIAS} = 999  OR  $P{P_DIAS}  IS NULL)
+GROUP BY TIMESTAMPDIFF(DAY,IFNULL(v.fec_ult_recibo,v.fec_venc),CURDATE()),
+	v.cod_cliente,
+	v.nombre,
+	CONCAT(v.tipo_comprobante,'-',v.ser_comprobante,'-',v.nro_comprobante),
+	v.ser_comprobante,
+	v.nro_comprobante,
+	v.nro_cuota,
+	v.fecha_vencimiento,
+	v.fec_venc,
+	DATE_FORMAT(v.fec_ult_recibo,'%d/%m/%Y')
+ORDER BY  2,3,6,7,10]]>
+	</queryString>
+	<field name="HASTA 30 DIAS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="HASTA 30 DIAS"/>
+	</field>
+	<field name="dias" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="dias"/>
+	</field>
+	<field name="cod_cliente" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cod_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+	</field>
+	<field name="grupo_saldo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="grupo_saldo"/>
+	</field>
+	<field name="ser_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ser_comprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="nro_comprobante" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="saldo_cliente"/>
+	</field>
+	<field name="nro_cuota" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_cuota"/>
+	</field>
+	<field name="fecha_vencimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_vencimiento"/>
+	</field>
+	<field name="fec_venc" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fec_venc"/>
+	</field>
+	<field name="fec_ult_recibo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_ult_recibo"/>
+	</field>
+	<field name="saldo_cuota" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="saldo_cuota"/>
+	</field>
+	<field name="COLUMN_13" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="saldo_cuota"/>
+	</field>
+	<variable name="saldo_cuota1" class="java.math.BigDecimal" resetType="Group" resetGroup="dias" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_cuota}]]></variableExpression>
+	</variable>
+	<variable name="saldo_cuota2" class="java.math.BigDecimal" resetType="Group" resetGroup="dias" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_cuota}]]></variableExpression>
+	</variable>
+	<variable name="saldo_cuota3" class="java.math.BigDecimal" resetType="Group" resetGroup="cliente" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_cuota}]]></variableExpression>
+	</variable>
+	<variable name="saldo_cuota4" class="java.math.BigDecimal" resetType="Group" resetGroup="dias" calculation="Sum">
+		<variableExpression><![CDATA[$F{saldo_cuota}]]></variableExpression>
+	</variable>
+	<group name="dias">
+		<groupExpression><![CDATA[$F{HASTA 30 DIAS}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<textField>
+					<reportElement x="10" y="2" width="150" height="14" uuid="308ac609-8956-4b4c-9f60-11400e71112b"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{HASTA 30 DIAS}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<line>
+					<reportElement x="84" y="3" width="471" height="1" uuid="a059a036-c4a8-4541-89b7-0ac86a9bf1ee">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<textField pattern="###,###,###.##">
+					<reportElement x="485" y="6" width="70" height="14" uuid="3ab1a1ca-ac1e-4478-8565-3319e249069a"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{saldo_cuota4}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="407" y="6" width="40" height="14" uuid="2cd23210-c7d4-4c32-ab25-ed8a4bce8dc6"/>
+					<text><![CDATA[TOTAL:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="cliente">
+		<groupExpression><![CDATA[$F{cod_cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="47" y="4" width="30" height="14" uuid="9bc3f98d-e08d-478e-974f-404b56b47967"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cod_cliente}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="80" y="4" width="150" height="14" uuid="71934565-762c-44e4-96e8-5c91b6a90895"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="47" y="1" width="507" height="1" uuid="5f65e3d2-51b4-4737-a07b-84a3ee8380b5"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2"/>
+		</groupFooter>
+	</group>
+	<group name="grupo">
+		<groupExpression><![CDATA[$F{grupo_saldo}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<textField>
+					<reportElement x="160" y="2" width="50" height="14" uuid="c26cecd2-15c8-419b-869f-19aa8e657afb"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{grupo_saldo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="238" y="2" width="70" height="14" uuid="989abe42-5b60-4ed8-812c-03a3dfb162a8"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha_vencimiento}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###,###,###.##">
+					<reportElement x="485" y="2" width="70" height="14" uuid="b66fa9e2-e213-41ef-93ab-3a357e957897"/>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{saldo_cuota}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="425" y="2" width="20" height="14" uuid="83dd972a-76cd-4b36-9748-8815ed628848"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dias}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="322" y="2" width="70" height="14" uuid="ca951b57-eb30-4243-a559-ad3520eb1336"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fec_ult_recibo}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="2"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="31" splitType="Stretch">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="3" y="5" width="100" height="12" uuid="b43aa0b4-8926-4038-967e-117817a5b6e6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="451" y="3" width="60" height="12" uuid="f6145a78-bbde-418f-9657-1e795754901d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="3" width="40" height="12" uuid="979769d4-6241-47b8-8996-236e1470d637">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="173" y="3" width="210" height="20" uuid="402c58fa-0ea8-44d1-8c31-72e1f05fe9f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Análisis De Saldos En Días]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="26" width="554" height="1" uuid="d70b3f57-add9-498a-9ecf-b2335cd8fda1"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement x="81" y="2" width="35" height="12" uuid="acadde3d-d82d-4309-9767-d932e92922e3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="144" y="2" width="60" height="12" uuid="1d0c0a71-2805-4e4d-9dee-5522e1990d37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="493" y="2" width="50" height="12" uuid="b583b006-36ce-4d96-bd74-7658faa3abfb">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="29" width="554" height="1" uuid="507ff16b-4de4-4547-b9d9-e36d3c9f05ac"/>
+			</line>
+			<staticText>
+				<reportElement x="401" y="2" width="60" height="24" uuid="59ef967e-8e14-4b7e-bb63-450343797f43">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dias De Retraso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="2" width="60" height="24" uuid="39568c23-7daa-4bda-8708-391760523498">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha De Vecimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="2" width="65" height="24" uuid="7a10d1a0-8dc8-4634-9f89-6dabe53a002a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha De Ult Recibo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="2" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="3" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>

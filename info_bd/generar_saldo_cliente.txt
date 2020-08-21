@@ -1,0 +1,18 @@
+DELIMITER $$
+
+USE `compra_venta`$$
+
+DROP PROCEDURE IF EXISTS `generar_saldo_cliente`$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `generar_saldo_cliente`(IN tipo VARCHAR(3),IN ser VARCHAR(2),IN numero INT,IN cant_cuo INT, IN suc VARCHAR(2),IN cliente INT,IN fecha DATE,IN monto DECIMAL(10,2),IN mon VARCHAR(5),IN saldo DECIMAL(10,2),IN us VARCHAR(10),IN ref VARCHAR(100))
+BEGIN
+DECLARE i INT;
+DECLARE f DATE;
+SET i=1;
+WHILE i <= cant_cuo DO
+INSERT INTO saldo_cliente(tipo_comprobante,ser_comprobante,nro_comprobante,nro_cuota,cod_sucursal,cod_cliente,fecha_vencimiento,monto_cuota,cod_moneda,saldo_cuota,cod_usuario,cod_referencia) VALUES(tipo,ser,numero,i,suc,cliente,ADDDATE(fecha,INTERVAL I MONTH),monto,mon,saldo,us,ref);
+SET i = i + 1;
+END WHILE;
+END$$
+
+DELIMITER ;

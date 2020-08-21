@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPCONSTCK" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="533bf688-1a72-4d6f-a7c3-758925c676ec">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="compra_venta"/>
+	<parameter name="p_cod_sucursal" class="java.lang.String"/>
+	<parameter name="p_cod_deposito" class="java.lang.String"/>
+	<parameter name="p_cod_articulo" class="java.lang.String"/>
+	<parameter name="p_nro_lote" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT  * 
+FROM view_existencia_articulo e
+WHERE (e.cod_sucursal= $P{p_cod_sucursal}  OR   $P{p_cod_sucursal}  IS NULL)
+				AND (e.cod_deposito= $P{p_cod_deposito}  OR   $P{p_cod_deposito}  IS NULL)
+				AND (e.cod_articulo= $P{p_cod_articulo}  OR   $P{p_cod_articulo}  IS NULL)
+				AND (e.nro_lote=$P{p_nro_lote}  OR   $P{p_nro_lote}  IS NULL)]]>
+	</queryString>
+	<field name="cod_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_sucursal"/>
+	</field>
+	<field name="desc_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_sucursal"/>
+	</field>
+	<field name="cod_deposito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_deposito"/>
+	</field>
+	<field name="desc_deposito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_deposito"/>
+	</field>
+	<field name="cod_articulo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_articulo"/>
+	</field>
+	<field name="cod_un_medida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_un_medida"/>
+	</field>
+	<field name="nro_lote" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_lote"/>
+	</field>
+	<field name="desc_articulo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_articulo"/>
+	</field>
+	<field name="existencia" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="existencia"/>
+	</field>
+	<group name="gp_sucursal">
+		<groupExpression><![CDATA[$F{cod_sucursal}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="1" y="3" width="20" height="15" uuid="6cf0f10d-6b02-441b-b200-6d43e0668083">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{cod_sucursal}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="25" y="3" width="150" height="15" uuid="5ca39158-bff4-4153-ba7e-daa2e696c776">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{desc_sucursal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="7"/>
+		</groupFooter>
+	</group>
+	<group name="gp_deposito">
+		<groupExpression><![CDATA[$F{cod_deposito}]]></groupExpression>
+		<groupHeader>
+			<band height="22">
+				<textField>
+					<reportElement x="25" y="3" width="20" height="15" uuid="74d1b935-d0b0-488b-8908-ad0a7b322c33">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{cod_deposito}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="50" y="3" width="150" height="15" uuid="2f2e4c16-4718-4636-b373-f70a89705551">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{desc_deposito}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="5"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="3" width="75" height="20" uuid="38bfa19f-4134-4f8f-955f-06d6402389f1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[REPCONSTCK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="3" width="200" height="20" uuid="4910fe65-1b71-4250-b4eb-3483375df281">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<text><![CDATA[CONSULTA EXISTENCIA DE ARTICULOS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="25" width="550" height="2" uuid="95b57e57-df52-4fbb-810f-ed09c837a19a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="445" y="3" width="50" height="20" uuid="81598e5d-ce0b-4aaf-86f9-0faee28f8611">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="500" y="3" width="50" height="20" uuid="61e8b649-bfe6-429f-bcf6-93b485e4644b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" de" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="3" width="25" height="15" uuid="f201cca5-bf75-400e-b729-9aa07b47b432">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<text><![CDATA[Suc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="3" width="25" height="15" uuid="3c8b8d26-4434-4a9b-a297-1ce21e62e1e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<text><![CDATA[Dep.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="83" y="3" width="50" height="15" uuid="2d35a12d-29e8-4e77-8b23-27a38636c193">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="3" width="50" height="15" uuid="cfe8b935-f5d0-48ae-8212-2a96345fb8a2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Cod Un.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="192" y="3" width="50" height="15" uuid="6ec6e48b-264d-45c5-bd9e-a0ce05ee18b4">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Nro Lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="3" width="55" height="15" uuid="b4374484-0ef8-48d7-b205-326957ea6677">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="3" width="50" height="15" uuid="2291b7ad-6aff-40d9-900e-49c72472afa1">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Unid Exist.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="20" width="550" height="2" uuid="34c137a7-202c-48c0-9e58-0e1b8d00212b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="83" y="3" width="50" height="15" uuid="6dfd413c-0ab3-4b9b-93a5-2ab3866c5883">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{cod_articulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="3" width="50" height="15" uuid="6bf02434-d46f-4685-a013-1b0f1c00da51">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{cod_un_medida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="192" y="3" width="70" height="15" uuid="f614afc6-6e0d-4cda-a2a0-2f46b103a94e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nro_lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="3" width="250" height="15" uuid="4fe1d7e4-7347-4a3c-99e4-666917e14fa6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{desc_articulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="524" y="3" width="25" height="15" uuid="54f2f1d3-4165-4698-b20d-adbcacbe62bc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{existencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="5" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="9" splitType="Stretch"/>
+	</summary>
+</jasperReport>

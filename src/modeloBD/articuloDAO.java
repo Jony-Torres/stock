@@ -461,6 +461,20 @@ public class articuloDAO {
         }
         return desc;
     }
+    public Integer retorna_cant_cod_aticulo(String suc,String artc,String dep){
+       Integer cant =  null;
+        try {
+            con.ps = con.conectar_bd().prepareStatement("SELECT COUNT(v.cod_articulo) cantidad FROM view_existencia_articulo v WHERE v.cod_articulo = '"+artc+"'");
+            con.rs=con.ps.executeQuery();
+            con.rs.next();
+            cant=con.rs.getInt("cantidad");
+            //con.closeConnection();
+            } catch (SQLException e) {  
+                JOptionPane.showMessageDialog(null,"Error al retornar cantidad por codigo de articulo: "+e,"Mensaje del sistema",JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, e);
+        }
+        return cant;
+    }
    public String retorna_desc_articulo(String suc,String artc,String dep,String unid,String lot){
        String desc =  null;
         try {
@@ -503,6 +517,24 @@ public class articuloDAO {
                 //JOptionPane.showMessageDialog(null, e);
         }
         return resp;
+    }
+    public ArrayList<articulo> dato_articulo(String articulo){
+        ArrayList listaart= new ArrayList();
+        articulo art;
+        try {
+            con.ps = con.conectar_bd().prepareStatement("SELECT v.desc_articulo,v.cod_un_medida,v.nro_lote FROM view_existencia_articulo v WHERE v.cod_articulo = '"+articulo+"'");
+            con.rs=con.ps.executeQuery();
+            while(con.rs.next()){
+                art = new articulo();
+                art.setDesc_articulo(con.rs.getString(1));
+                art.setCod_un_med(con.rs.getString(2));
+                art.setNro_lote(con.rs.getString(3));
+                listaart.add(art);
+            }
+            //con.closeConnection();
+        } catch (Exception e) {
+        }
+        return listaart;
     }
     public int retorna_cant_disp_stock(String suc,String dep,String artc,String und,String lot){
        int prec = 0;

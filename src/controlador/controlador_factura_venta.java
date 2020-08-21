@@ -137,6 +137,7 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
         this.vistaFactura_ven.tbl_bvendedor.addKeyListener(this);
         this.vistaFactura_ven.tbl_bcondicion.addKeyListener(this);
         this.vistaFactura_ven.tbl_bdeposito.addKeyListener(this);
+        this.vistaFactura_ven.tbl_art_un_lote.addKeyListener(this);
         this.vistaFactura_ven.tbl_busq_articulo.addKeyListener(this);
         this.vistaFactura_ven.cmb_tipo_comprobante.addKeyListener(this);
         this.vistaFactura_ven.txt_ser_comprobante.addKeyListener(this);
@@ -153,6 +154,7 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
         this.vistaFactura_ven.btn_agregar_cliente.addKeyListener(this);
         this.vistaFactura_ven.btn_agreg_cob.addActionListener(this);
         this.vistaFactura_ven.btn_agreg_vend.addActionListener(this);
+        this.vistaFactura_ven.btn_agreg_art2.addActionListener(this);
         this.vistaFactura_ven.btn_agreg_cond.addActionListener(this);
         this.vistaFactura_ven.btn_agreg_prod.addActionListener(this);
     }
@@ -200,6 +202,10 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
         //
         if (e.getSource()== vistaFactura_ven.btn_agreg_deposito){
             agregar_deposito();
+        }
+        //
+        if (e.getSource()== vistaFactura_ven.btn_agreg_art2){
+            agregar_art_un_lote();
         }
         //
         if (e.getSource()== vistaFactura_ven.btn_client){
@@ -412,14 +418,28 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
                 JOptionPane.showMessageDialog(this, "Campo Obligatorio", "Abvertencia", JOptionPane.WARNING_MESSAGE);
                 vistaFactura_ven.txt_cod_prod_busq.requestFocus();
             }else{
-                String res = modeloArticulo.retorna_desc_articulo(sucursal,vistaFactura_ven.txt_cod_prod_busq.getText(),vistaFactura_ven.txt_cod_deposito.getText(),vistaFactura_ven.txt_cod_un_med.getText(),vistaFactura_ven.txt_nro_lote.getText());
-                if(res!= null){
-                    vistaFactura_ven.txt_desc_prod_busq.setText(res);
-                    int precio_venta = modeloArticulo.retorna_precioun_art(vistaFactura_ven.txt_cod_prod_busq.getText(),vistaFactura_ven.txt_cod_un_med.getText(),vistaFactura_ven.txt_nro_lote.getText());
-                    vistaFactura_ven.txt_precio_unitario.setText(""+precio_venta);
-                    vistaFactura_ven.txt_cantidad.setText(""+1);
-                    vistaFactura_ven.txt_cantidad.requestFocus();
+                Integer res1 = modeloArticulo.retorna_cant_cod_aticulo(sucursal,vistaFactura_ven.txt_cod_prod_busq.getText(),vistaFactura_ven.txt_cod_deposito.getText());
+                if(res1 == 1){
+                    boolean estado = false;
+                    List<articulo> articuloList = modeloArticulo.dato_articulo(vistaFactura_ven.txt_cod_prod_busq.getText());
+                        for (articulo rpc : articuloList) {
+                            vistaFactura_ven.txt_desc_prod_busq.setText(rpc.getDesc_articulo());
+                            vistaFactura_ven.txt_cod_un_med.setText(rpc.getCod_un_med());
+                            vistaFactura_ven.txt_nro_lote.setText(rpc.getNro_lote());
+                            estado = true;
+                    }
+                    
+                    if (estado == true) {
+                        Integer precio_venta = modeloArticulo.retorna_precioun_art(vistaFactura_ven.txt_cod_prod_busq.getText(),vistaFactura_ven.txt_cod_un_med.getText(),vistaFactura_ven.txt_nro_lote.getText());
+                        vistaFactura_ven.txt_precio_unitario.setText(""+precio_venta);
+                        vistaFactura_ven.txt_cantidad.setText(""+1);
+                        vistaFactura_ven.txt_cantidad.requestFocus();
+                    }
+                }else if (res1 > 1){
+                    vistaFactura_ven.ventana_art_un_lot();
+                    cargar_art_un_lote(vistaFactura_ven.tbl_art_un_lote,vistaFactura_ven.txt_cod_prod_busq.getText());
                 }else {
+                    JOptionPane.showMessageDialog(null,"El Codigo de Articulo ingresado no se encuentra en STOCK: ","Mensaje del sistema",JOptionPane.WARNING_MESSAGE);
                     vistaFactura_ven.txt_cod_prod_busq.setText("");
                     vistaFactura_ven.txt_desc_prod_busq.setText("");
                     vistaFactura_ven.txt_cantidad.setText("");
@@ -614,6 +634,12 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
             }
         }
         //
+        if (e.getSource()== vistaFactura_ven.tbl_art_un_lote){
+            if (e.VK_ENTER==e.getKeyCode()){
+                agregar_art_un_lote();
+            }
+        }
+        //
         if (e.getSource() == vistaFactura_ven.btn_agregar_cliente) {
             agregar_cliente();
         }
@@ -785,6 +811,25 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
                 columna[1] = rpc.getDesc_persona();
                 model.addRow(columna);
             }
+        }
+    }
+    private void cargar_art_un_lote(JTable tbl_art_un_lote, String arti) {
+        DefaultTableModel model = new DefaultTableModel();
+        tbl_art_un_lote.setModel(model);
+        model.addColumn("Descripcion");
+        model.addColumn("Cod Unidad");
+        model.addColumn("Nro Lote");
+        int[] anchos = {300,30,50};
+        for (int i = 0; i < tbl_art_un_lote.getColumnCount(); i++) {
+            tbl_art_un_lote.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+        }
+        Object[] columna = new Object[3];
+        List<articulo> articuloList = modeloArticulo.dato_articulo(arti);
+        for (articulo rpc : articuloList) {
+            columna[0] = rpc.getDesc_articulo();
+            columna[1] = rpc.getCod_un_med();
+            columna[2] = rpc.getNro_lote();
+            model.addRow(columna);
         }
     }
 
@@ -1330,6 +1375,18 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
                             this.vistaFactura_ven.cerrar_ventana_deposito();
                             vistaFactura_ven.txt_cod_deposito.requestFocus();
                         }
+    }
+    private void agregar_art_un_lote() {
+        int cod = vistaFactura_ven.tbl_art_un_lote.getSelectedRow();
+        if (cod == -1) {
+            JOptionPane.showMessageDialog(null, "Debe Seleccionar Una Fila Para Poder Realizar La Operacion  ", "Mensaje Del Sistema", JOptionPane.WARNING_MESSAGE);
+        } else {
+            this.vistaFactura_ven.txt_desc_art_busq.setText(vistaFactura_ven.tbl_art_un_lote.getValueAt(cod, 0).toString());
+            this.vistaFactura_ven.txt_cod_un_med.setText(vistaFactura_ven.tbl_art_un_lote.getValueAt(cod, 1).toString());
+            this.vistaFactura_ven.txt_nro_lote.setText(vistaFactura_ven.tbl_art_un_lote.getValueAt(cod, 2).toString());
+            this.vistaFactura_ven.cerrar_ventana_art_un_lot();
+            vistaFactura_ven.txt_cantidad.requestFocus();
+        }
     }
     private void imprimir_comprobante() throws JRException  {
             String tipo_comp="";

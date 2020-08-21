@@ -114,6 +114,12 @@ public class FORMFACTUR extends javax.swing.JFrame {
         jScrollPane10 = new javax.swing.JScrollPane();
         txt_error = new javax.swing.JTextArea();
         btn_volver_err = new javax.swing.JButton();
+        ventana_art_un_lote = new javax.swing.JDialog();
+        jPanel24 = new javax.swing.JPanel();
+        jPanel25 = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        tbl_art_un_lote = new javax.swing.JTable();
+        btn_agreg_art2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -575,6 +581,44 @@ public class FORMFACTUR extends javax.swing.JFrame {
         jPanel21.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 570, 310));
 
         ventana_error.getContentPane().add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 330));
+
+        ventana_art_un_lote.setTitle("Articulos Unidades Lotes");
+        ventana_art_un_lote.setResizable(false);
+        ventana_art_un_lote.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel24.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel25.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tbl_busq_talonario = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
+        tbl_art_un_lote.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane11.setViewportView(tbl_art_un_lote);
+
+        jPanel25.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 560, 170));
+
+        btn_agreg_art2.setBackground(new java.awt.Color(255, 102, 0));
+        btn_agreg_art2.setText("Agregar");
+        jPanel25.add(btn_agreg_art2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, -1, -1));
+
+        jPanel24.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 580, 230));
+
+        ventana_art_un_lote.getContentPane().add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 250));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FACTURACION(FORMFACTUR)");
@@ -1473,6 +1517,7 @@ public class FORMFACTUR extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btn_actualizar;
+    public javax.swing.JButton btn_agreg_art2;
     public javax.swing.JButton btn_agreg_cob;
     public javax.swing.JButton btn_agreg_cond;
     public javax.swing.JButton btn_agreg_deposito;
@@ -1552,6 +1597,8 @@ public class FORMFACTUR extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1561,6 +1608,7 @@ public class FORMFACTUR extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1576,6 +1624,7 @@ public class FORMFACTUR extends javax.swing.JFrame {
     public javax.swing.JLabel lbl_fec_comp;
     public javax.swing.JLabel lbl_serie_nro;
     public javax.swing.JLabel lbl_tipo_comp;
+    public javax.swing.JTable tbl_art_un_lote;
     public javax.swing.JTable tbl_bcobrador;
     public javax.swing.JTable tbl_bcondicion;
     public javax.swing.JTable tbl_bdeposito;
@@ -1622,6 +1671,7 @@ public class FORMFACTUR extends javax.swing.JFrame {
     public javax.swing.JTextField txt_total;
     public javax.swing.JTextField txt_total_gravada;
     public javax.swing.JTextField txt_total_iva;
+    private javax.swing.JDialog ventana_art_un_lote;
     private javax.swing.JDialog ventana_articulo;
     private javax.swing.JDialog ventana_busqueda;
     private javax.swing.JDialog ventana_cobrador;
@@ -1816,6 +1866,17 @@ public class FORMFACTUR extends javax.swing.JFrame {
 
     public void cerrar_ventana_moneda() {
         ventana_moneda.dispose();
+    }
+    
+    public void ventana_art_un_lot() {
+        FORMFACTUR bus = new FORMFACTUR();
+        ventana_art_un_lote.setVisible(true);
+        ventana_art_un_lote.setSize(600, 280);
+        ventana_art_un_lote.setLocationRelativeTo(bus);
+    }
+
+    public void cerrar_ventana_art_un_lot() {
+        ventana_art_un_lote.dispose();
     }
 
     public void ventana_articulo() {

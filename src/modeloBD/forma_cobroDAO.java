@@ -167,6 +167,34 @@ public class forma_cobroDAO {
         }
         return listadecomp;
     }
+    public ArrayList<forma_cobro> listdecompsertipo(String clien,String tip,String ser,Integer nro){
+        ArrayList listadecomp= new ArrayList();
+        forma_cobro cob;
+        try {
+            con.ps = con.conectar_bd().prepareStatement("SELECT c.tipo_comprobante,c.ser_comprobante,c.nro_comprobante,c.total_comprobante "
+                                                        + "FROM comprobante_cabecera_venta c "
+                                                        + "WHERE c.cod_cliente = '"+clien+"' AND c.tipo_comprobante = '"+tip+"' AND c.ser_comprobante = '"+ser+"' AND c.nro_comprobante = '"+nro+"' "
+                                                        + "AND ifnull(c.cobrado,'N')='N' AND c.estado <> 'A'" 
+                                                        + "UNION ALL "
+                                                        + "SELECT r.tipo_recibo,r.ser_recibo,r.nro_recibo,r.total_recibo "
+                                                        + "FROM recibo_venta_cabecera r "
+                                                        + "WHERE r.cod_cliente='"+clien+"' AND r.tipo_recibo = '"+tip+"' AND r.ser_recibo = '"+ser+"' AND r.nro_recibo = '"+nro+"' "
+                                                        + "AND ifnull(r.cobrado,'N')='N' AND r.estado <> 'A'");
+            con.rs=con.ps.executeQuery();
+            while(con.rs.next()){
+                cob= new forma_cobro();
+                cob.setTipo_comprobante(con.rs.getString(1));
+                cob.setSer_comprobante(con.rs.getString(2));
+                cob.setNro_comprobante(con.rs.getInt(3));
+                cob.setTotal_comprobante(con.rs.getDouble(4));
+                listadecomp.add(cob);
+            }
+            //con.closeConnection();
+        } catch (SQLException e) {
+            System.out.println("Error al consultar comprobantes por serie: "+e);
+        }
+        return listadecomp;
+    }
     public ArrayList<forma_cobro> listdecliente(){
         ArrayList listadecli= new ArrayList();
         forma_cobro cobro;

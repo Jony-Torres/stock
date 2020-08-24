@@ -219,7 +219,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
                 if(res!= null){
                     vistaForma_Cob.txt_desc_cliente.setText(res);
                     vistaForma_Cob.ventana_comprobante_cliente();
-                    cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante_cliente);
+                    cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante_cliente,"TODOS");
                 }
             }
         }
@@ -460,7 +460,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
        }
     }
 
-    private void cargar_comprobante_cliente(JTable tbl_comprobante_cliente) {
+    private void cargar_comprobante_cliente(JTable tbl_comprobante_cliente,String opc) {
         DefaultTableModel model =new DefaultTableModel();
         tbl_comprobante_cliente.setModel(model);
         model.addColumn("Tipo Comp");
@@ -473,13 +473,15 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
             tbl_comprobante_cliente.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
         Object[] columna=new Object[4];
-        List<forma_cobro> cobroList = modeloForma_Cob.listdecomprobante(vistaForma_Cob.txt_cod_cliente.getText());
+        if (opc == "TODOS") {
+            List<forma_cobro> cobroList = modeloForma_Cob.listdecomprobante(vistaForma_Cob.txt_cod_cliente.getText());
         for (forma_cobro rpc : cobroList) {
            columna[0] = rpc.getTipo_comprobante();
            columna[1] = rpc.getSer_comprobante();
            columna[2] = rpc.getNro_comprobante();
            columna[3] = ""+formatea.format(rpc.getTotal_comprobante());
            model.addRow(columna);
+        }
         }
     }
 

@@ -1354,7 +1354,7 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
                         limpiar_tabla_comprobante();
                         inicializa_variables();
                         vistaFactura_ven.inicializa_controles();
-                        if (vistaFactura_ven.cmb_tipo_comprobante.getSelectedItem().toString().equals("FACTURA CONTADO")) {
+                        if (fact.getTipo_comprobante() == "FCO") {
                             llama_forma_cobro(fact.getCod_cliente(),fact.getTipo_comprobante(),fact.getSer_comprobante(),fact.getNro_comprobante());
                         }
                     }else{

@@ -5,6 +5,7 @@
         <group>
             <file>file:/D:/Git-Hub/stock/src/controlador/controlador_forma_cobro.java</file>
             <file>file:/D:/Git-Hub/stock/src/controlador/controlador_recibo_venta.java</file>
+            <file>file:/D:/Git-Hub/stock/src/modeloBD/forma_cobroDAO.java</file>
             <file>file:/D:/Git-Hub/stock/src/vista/FORMFORMCO.java</file>
             <file>file:/D:/Git-Hub/stock/src/controlador/controlador_factura_venta.java</file>
             <file>file:/D:/Git-Hub/stock/src/controlador/controlador_menu_principal.java</file>

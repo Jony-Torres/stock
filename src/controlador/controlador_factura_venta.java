@@ -33,6 +33,7 @@ import modeloBD.deposito_stock;
 import modeloBD.deposito_stockDAO;
 import modeloBD.factura_venta;
 import modeloBD.factura_ventaDAO;
+import modeloBD.forma_cobroDAO;
 import modeloBD.moneda;
 import modeloBD.monedaDAO;
 import modeloBD.permiso_grupoDAO;
@@ -49,6 +50,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import vista.FORMFACTUR;
+import vista.FORMFORMCO;
 /**
  *
  * @author JONY
@@ -1352,6 +1354,9 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
                         limpiar_tabla_comprobante();
                         inicializa_variables();
                         vistaFactura_ven.inicializa_controles();
+                        if (vistaFactura_ven.cmb_tipo_comprobante.getSelectedItem().toString().equals("FACTURA CONTADO")) {
+                            llama_forma_cobro(fact.getCod_cliente(),fact.getTipo_comprobante(),fact.getSer_comprobante(),fact.getNro_comprobante());
+                        }
                     }else{
                         JOptionPane.showMessageDialog(null,"Mensaje Erroneo"); 
                     }
@@ -1764,6 +1769,13 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
             JOptionPane.showMessageDialog(null, "Error al ejecutar el informe" + e, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
             //vistaRep_mov_caj1.btn_ejecutar.setEnabled(true);
         }
+    }
+    private void llama_forma_cobro(Integer clie,String tip,String ser,Integer nro) {
+        FORMFORMCO vistform=new FORMFORMCO();
+        forma_cobroDAO   cobro= new forma_cobroDAO();
+        controlador_forma_cobro ctrlcob=new controlador_forma_cobro(vistform,cobro);
+        ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,usuario,sucursal,grupo,"CC","FORMFORMCO",clie,null,null,null);
+        vistform.setVisible(true);
     }
     
 }

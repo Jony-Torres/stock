@@ -325,7 +325,7 @@ public class controlador_menu_principal implements ActionListener {
            FORMFORMCO vistform=new FORMFORMCO();
             forma_cobroDAO   cobro= new forma_cobroDAO();
             controlador_forma_cobro ctrlcob=new controlador_forma_cobro(vistform,cobro);
-            ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,user,suc,grupo,"CC","FORMFORMCO",null);
+            ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,user,suc,grupo,"CC","FORMFORMCO",null,null,null,null);
             vistform.setVisible(true); 
         }
         if(e.getSource()== vistaMenuprinc.FORMFORMPA){

@@ -1101,11 +1101,11 @@ public void cargar_recibo_venta(JTable tbl_comprobante,String opc){
             }
     }
 
-    private void llama_forma_cobro(String clie) {
+    private void llama_forma_cobro(Integer clie) {
         FORMFORMCO vistform=new FORMFORMCO();
         forma_cobroDAO   cobro= new forma_cobroDAO();
         controlador_forma_cobro ctrlcob=new controlador_forma_cobro(vistform,cobro);
-        ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,usuario,sucursal,grupo,"CC","FORMFORMCO",clie);
+        ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,usuario,sucursal,grupo,"CC","FORMFORMCO",clie,null,null,null);
         vistform.setVisible(true);
     }
 

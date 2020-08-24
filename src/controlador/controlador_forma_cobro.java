@@ -50,8 +50,8 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
     String fecha_venc=null;
     
     public controlador_forma_cobro(FORMFORMCO vistaForma_Cob,forma_cobroDAO modeloForma_Cob) {
-        this.modeloForma_Cob=modeloForma_Cob;
-        this.vistaForma_Cob=vistaForma_Cob;
+        this.modeloForma_Cob = modeloForma_Cob;
+        this.vistaForma_Cob = vistaForma_Cob;
         this.vistaForma_Cob.btn_guardar.addActionListener(this);
         this.vistaForma_Cob.btn_nuevo.addActionListener(this);
         this.vistaForma_Cob.btn_nuevo.addKeyListener(this);
@@ -88,7 +88,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
         this.vistaForma_Cob.txt_nro_valor.addActionListener(this);
         this.vistaForma_Cob.txt_nro_cuenta.addActionListener(this);
     }
-    public void cargar_parametro_forma_cobro(JTable tbl_comprobante,String us,String suc,String gp,String mod,String form,String cli){
+    public void cargar_parametro_forma_cobro(JTable tbl_comprobante,String us,String suc,String gp,String mod,String form,Integer cli,String tip_comp,String ser_comp,Integer nro_comp){
         this.usuario = us;
         this.sucursal = suc;
         this.permiso = modeloPerm.retorna_permiso_grupo(gp,mod,form);
@@ -104,10 +104,10 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
         vistaForma_Cob.txt_desc_usuario.setText(modeloForma_Cob.retorna_desc_usuario(us));
         vistaForma_Cob.txt_tipo_mov_caja.setText("CAJ");
         vistaForma_Cob.txt_ser_mov_caja.setText("A");
-        vistaForma_Cob.txt_cod_cliente.setText(cli);
+        
         carga_tabla_comprobante();
         carga_tabla_cobro();
-        carga_caja();
+        carga_parametros_caja(cli,tip_comp,ser_comp,nro_comp);
    }
 
     @Override
@@ -370,19 +370,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getSource()== vistaForma_Cob.btn_nuevo){
-            proceso = "INSERT";
-            limpia_campos();
-            limpiar_tabla_comprobante();
-            limpiar_tabla_cobro();
-            //vistaForma_Cob.habilita_campos();
-            vistaForma_Cob.btn_client.setEnabled(true);
-            vistaForma_Cob.txt_cod_cliente.setEditable(true);
-            vistaForma_Cob.txt_cod_cliente.requestFocus();
-            vistaForma_Cob.btn_nuevo.setEnabled(false);
-            vistaForma_Cob.btn_guardar.setEnabled(true);
-            vistaForma_Cob.btn_busqueda.setEnabled(false);
-            vistaForma_Cob.btn_ejecutar.setEnabled(false);
-            vistaForma_Cob.btn_actualizar.setEnabled(false);
+            habilita_campos_cobro();
         }
         
         if (e.getSource()== vistaForma_Cob.tbl_comprobante_cliente){
@@ -625,17 +613,29 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
         }
     }
 
-    private void carga_caja() {
+    private void carga_parametros_caja(Integer cod_cli,String tip_com,String serie_com,Integer num_com) {
         List<forma_cobro> cobroList = modeloForma_Cob.nro_habilit_usuario(usuario,sucursal);
         for (forma_cobro rpc: cobroList) {
            vistaForma_Cob.txt_cod_caja.setText(rpc.getCod_caja());
            vistaForma_Cob.txt_desc_caja.setText(rpc.getDesc_caja());
            vistaForma_Cob.txt_nro_habilitacion.setText(""+rpc.getNumero_hab());
         }
+        
         if (vistaForma_Cob.txt_nro_habilitacion.getText().isEmpty() || txt_nro_habilitacion.getText() == null ) {
             JOptionPane.showMessageDialog(null,"El usuario no posee ninguna caja habilitada por lo que no podra realizar la forma de cobro ","Mensaje Del Sistema",JOptionPane.WARNING_MESSAGE);
             vistaForma_Cob.btn_nuevo.setEnabled(false);
+            //return;
+        }else {
+            if (cod_cli != null) {
+                String res = modeloForma_Cob.retorna_desc_cliente(cod_cli);
+                if(res != null){
+                    vistaForma_Cob.txt_desc_cliente.setText(res);
+                    vistaForma_Cob.txt_cod_cliente.setText(""+cod_cli);
+                }
+                habilita_campos_cobro();
+            }
         }
+        
     }    
 
     private boolean valida_exisartic_detalle(Integer p_trans,String p_sub_trans) {
@@ -1007,6 +1007,21 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
         vistaForma_Cob.btn_busqueda.setEnabled(false);
         vistaForma_Cob.btn_ejecutar.setEnabled(false);
         vistaForma_Cob.btn_actualizar.setEnabled(false);
+    }
+
+    private void habilita_campos_cobro() {
+        proceso = "INSERT";
+        limpia_campos();
+        limpiar_tabla_comprobante();
+        limpiar_tabla_cobro();
+        vistaForma_Cob.btn_client.setEnabled(true);
+        vistaForma_Cob.txt_cod_cliente.setEditable(true);
+        vistaForma_Cob.btn_nuevo.setEnabled(false);
+        vistaForma_Cob.btn_guardar.setEnabled(true);
+        vistaForma_Cob.btn_busqueda.setEnabled(false);
+        vistaForma_Cob.btn_ejecutar.setEnabled(false);
+        vistaForma_Cob.btn_actualizar.setEnabled(false);
+        vistaForma_Cob.txt_cod_cliente.requestFocus();
     }
 
 }

@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Git-Hub/stock/src/modeloBD/clienteDAO.java</file>
-            <file>file:/D:/Git-Hub/stock/src/vista/FORMFACTUR.java</file>
-            <file>file:/D:/Git-Hub/stock/src/modeloBD/articuloDAO.java</file>
+            <file>file:/D:/Git-Hub/stock/src/controlador/controlador_forma_cobro.java</file>
+            <file>file:/D:/Git-Hub/stock/src/controlador/controlador_recibo_venta.java</file>
+            <file>file:/D:/Git-Hub/stock/src/vista/FORMFORMCO.java</file>
             <file>file:/D:/Git-Hub/stock/src/controlador/controlador_factura_venta.java</file>
+            <file>file:/D:/Git-Hub/stock/src/controlador/controlador_menu_principal.java</file>
         </group>
     </open-files>
 </project-private>

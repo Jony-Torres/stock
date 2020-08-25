@@ -1886,7 +1886,8 @@ public class FORMFACTUR extends javax.swing.JFrame {
         ventana_articulo.setLocationRelativeTo(bus);
         //txt_cod_art_busq.setText("");
         //txt_cod_art_busq.requestFocus();
-        txt_desc_art_busq.setText("%%");
+        //txt_desc_art_busq.setText("%%");
+        txt_desc_art_busq.setText("");
     }
 
     public void cerrar_ventana_articulo() {

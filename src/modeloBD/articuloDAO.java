@@ -417,7 +417,7 @@ public class articuloDAO {
         try {
             PreparedStatement conex = con.conectar_bd().prepareStatement("SELECT exi.cod_sucursal,exi.desc_sucursal,exi.cod_deposito,exi.desc_deposito,exi.cod_articulo,exi.cod_un_medida,exi.nro_lote,exi.desc_articulo,exi.existencia "
                                                                         + "FROM view_existencia_articulo exi "
-                                                                        + "where  exi.cod_sucursal = '"+suc+"' and exi.cod_deposito = '"+dep+"' and exi.desc_articulo like '"+art+"' ");
+                                                                        + "where  exi.cod_sucursal = '"+suc+"' and exi.cod_deposito = '"+dep+"' and exi.desc_articulo like '%"+art+"%' ");
             ResultSet result = conex.executeQuery();
             while(result.next()){
                 exis = new articulo();

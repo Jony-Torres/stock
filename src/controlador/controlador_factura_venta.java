@@ -1774,7 +1774,7 @@ public class controlador_factura_venta extends FORMFACTUR implements ActionListe
         FORMFORMCO vistform=new FORMFORMCO();
         forma_cobroDAO   cobro= new forma_cobroDAO();
         controlador_forma_cobro ctrlcob=new controlador_forma_cobro(vistform,cobro);
-        ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,usuario,sucursal,grupo,"CC","FORMFORMCO",clie,null,null,null);
+        ctrlcob.cargar_parametro_forma_cobro(vistform.tbl_comprobante,usuario,sucursal,grupo,"CC","FORMFORMCO",clie,tip,ser,nro);
         vistform.setVisible(true);
     }
     

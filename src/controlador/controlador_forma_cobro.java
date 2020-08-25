@@ -219,7 +219,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
                 if(res!= null){
                     vistaForma_Cob.txt_desc_cliente.setText(res);
                     vistaForma_Cob.ventana_comprobante_cliente();
-                    cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante_cliente,"TODOS");
+                    cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante_cliente,"TODOS",null,null,null);
                 }
             }
         }
@@ -460,31 +460,47 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
        }
     }
 
-    private void cargar_comprobante_cliente(JTable tbl_comprobante_cliente,String opc) {
-        DefaultTableModel model =new DefaultTableModel();
-        tbl_comprobante_cliente.setModel(model);
+    private void cargar_comprobante_cliente(JTable tbl, String opc, String tip_com, String ser_com, Integer nro_com) {
+        DefaultTableModel model = new DefaultTableModel();
+        tbl.setModel(model);
         model.addColumn("Tipo Comp");
         model.addColumn("Serie Comp");
         model.addColumn("Nro Comp");
         model.addColumn("Importe Comprobante");
-        
-        int[] anchos = {100,120,100,150};
-        for (int i = 0; i < tbl_comprobante_cliente.getColumnCount(); i++) {
-            tbl_comprobante_cliente.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
+
+        int[] anchos = {100, 120, 100, 150};
+        for (int i = 0; i < tbl.getColumnCount(); i++) {
+            tbl.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
         }
-        Object[] columna=new Object[4];
+        Object[] columna = new Object[4];
         if (opc == "TODOS") {
             List<forma_cobro> cobroList = modeloForma_Cob.listdecomprobante(vistaForma_Cob.txt_cod_cliente.getText());
-        for (forma_cobro rpc : cobroList) {
-           columna[0] = rpc.getTipo_comprobante();
-           columna[1] = rpc.getSer_comprobante();
-           columna[2] = rpc.getNro_comprobante();
-           columna[3] = ""+formatea.format(rpc.getTotal_comprobante());
-           model.addRow(columna);
+            for (forma_cobro rpc : cobroList) {
+                columna[0] = rpc.getTipo_comprobante();
+                columna[1] = rpc.getSer_comprobante();
+                columna[2] = rpc.getNro_comprobante();
+                columna[3] = "" + formatea.format(rpc.getTotal_comprobante());
+                model.addRow(columna);
+            }
         }
+        if (opc == "SERIE") {
+            List<forma_cobro> cobroList = modeloForma_Cob.listdecompsertipo(vistaForma_Cob.txt_cod_cliente.getText(),tip_com,ser_com,nro_com);
+            //System.out.println("Antes LOOP:");
+            for (forma_cobro rpc : cobroList) {
+                //System.out.println("LOOP:"+opc+rpc.getTipo_comprobante()+rpc.getSer_comprobante()+rpc.getTotal_comprobante());
+                columna[0] = rpc.getTipo_comprobante();
+                columna[1] = rpc.getSer_comprobante();
+                columna[2] = rpc.getNro_comprobante();
+                columna[3] = "" + formatea.format(rpc.getTotal_comprobante());
+                double v_aux = conv_form_num.retorna_valor_numero(formatea.format(rpc.getTotal_comprobante()).toString());
+                model.addRow(columna);
+                
+                total = total + v_aux;
+                String tot = formatea.format(total);
+                vistaForma_Cob.txt_total_comprobante.setText(tot);
+            }  
         }
     }
-
     private boolean valida_exisfec_detalle(String fec) {
         boolean exis=false;
          int i=0;
@@ -634,7 +650,11 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
                     vistaForma_Cob.txt_desc_cliente.setText(res);
                     vistaForma_Cob.txt_cod_cliente.setText(""+cod_cli);
                 }
-                habilita_campos_cobro();
+                //habilita_campos_cobro();
+                cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante,"SERIE",tip_com,serie_com,num_com);
+                vistaForma_Cob.txt_sub_tipo_transacc.setEditable(true);
+                vistaForma_Cob.btn_sub_tip.setEnabled(true);
+                vistaForma_Cob.btn_guardar.setEnabled(true);
             }
         }
         
@@ -943,9 +963,6 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
             int[] filasSelec = vistaForma_Cob.tbl_comprobante_cliente.getSelectedRows();
             for (int i = 0; i < filasSelec.length; i++) {
                 DefaultTableModel model = (DefaultTableModel) vistaForma_Cob.tbl_comprobante.getModel();
-                /**
-                 * ****************************************************************************************************
-                 */
                 boolean result;
                 result = valida_exisfec_detalle(vistaForma_Cob.tbl_comprobante_cliente.getValueAt(filasSelec[i], 2).toString());
                 if (result == true) {

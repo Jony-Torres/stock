@@ -41,10 +41,10 @@ public class FORMFORMCO extends javax.swing.JFrame {
     }
 
     public void cerrar_ventanacobro() {
-        int opc = JOptionPane.showConfirmDialog(null, "Esta seguro de que quiere cerrar esta ventana ?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (opc == JOptionPane.YES_OPTION) {
-            this.dispose();
-        }
+            int opc = JOptionPane.showConfirmDialog(null, "Esta seguro de que quiere cerrar esta ventana ?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (opc == JOptionPane.YES_OPTION) {
+                this.dispose();
+            }
     }
 
     /**
@@ -1382,32 +1382,6 @@ public class FORMFORMCO extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(controlador_persona.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public void habilita_campos() {
-        txt_cod_caja.setEditable(true);
-        txt_cod_cliente.setEditable(true);
-        txt_cod_pers_jurid.setEditable(true);
-        txt_cod_sucursal.setEditable(true);
-        txt_cod_usuario.setEditable(true);
-        txt_desc_caja.setEditable(true);
-        txt_desc_cliente.setEditable(true);
-        txt_desc_pers_jurid.setEditable(true);
-        txt_desc_sub_tipo_transacc.setEditable(true);
-        txt_desc_suscursal.setEditable(true);
-        txt_desc_usuario.setEditable(true);
-        txt_fecha_mov.setEnabled(true);
-        txt_nro_cuenta.setEditable(true);
-        txt_nro_habilitacion.setEditable(true);
-        txt_nro_mov_caja.setEditable(true);
-        txt_nro_valor.setEditable(true);
-        txt_ser_mov_caja.setEditable(true);
-        txt_sub_tipo_transacc.setEditable(true);
-        txt_tipo_mov_caja.setEditable(true);
-        txt_total_comprobante.setEditable(true);
-        txt_total_importe.setEditable(true);
-        txt_importe.setEditable(true);
-        txt_cod_cliente.requestFocus();
     }
 
     public void ventana_comprobante_cliente() {

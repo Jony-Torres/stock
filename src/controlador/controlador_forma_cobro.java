@@ -498,6 +498,17 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
                 total = total + v_aux;
                 String tot = formatea.format(total);
                 vistaForma_Cob.txt_total_comprobante.setText(tot);
+                if (total >= 0) {
+                    Integer v_efectivo = modeloForma_Cob.retorna_valor_efectivo_cobro(tipo_transa, "CC","EFECTIVO");
+                    vistaForma_Cob.txt_sub_tipo_transacc.setText(""+v_efectivo);
+                    String res=modeloForma_Cob.retorna_desc_sub_tipo_trans(tipo_transa,Integer.parseInt(vistaForma_Cob.txt_sub_tipo_transacc.getText()));
+                    if(res!= null){
+                        vistaForma_Cob.txt_desc_sub_tipo_transacc.setText(res);
+                        vistaForma_Cob.txt_importe.setEditable(true);
+                        vistaForma_Cob.txt_importe.setText(""+total);
+                        vistaForma_Cob.txt_importe.requestFocus();
+                    }
+                }
             }  
         }
     }

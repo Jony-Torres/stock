@@ -272,6 +272,22 @@ public class forma_cobroDAO {
         }
         return desc;
     }
+    public Integer retorna_valor_efectivo_cobro(Integer trans,String mod,String desc){
+       Integer valor = null;
+        try {
+            con.ps = con.conectar_bd().prepareStatement("SELECT sub.cod_sub_tipo_trans "
+                                                        + "FROM sub_tipo_transaccion sub,tipo_transaccion tra "
+                                                        + "WHERE sub.cod_tipo_trans=tra.cod_tipo_trans and sub.cod_tipo_trans='"+trans+"' and sub.cod_modulo='"+mod+"' and sub.descripcion='"+desc+"'");
+            con.rs=con.ps.executeQuery();
+            con.rs.next();
+            valor = con.rs.getInt("cod_sub_tipo_trans");
+            //con.closeConnection();
+            } catch (SQLException e) {  
+                JOptionPane.showMessageDialog(null,"No se encontro valor para la transaccion EFECTIVO: ","Mensaje del sistema",JOptionPane.WARNING_MESSAGE);
+                //JOptionPane.showMessageDialog(null, e);
+        }
+        return valor;
+    }
     public ArrayList<forma_cobro> listdetransaccion(){
         ArrayList listadetrans= new ArrayList();
         forma_cobro cob;

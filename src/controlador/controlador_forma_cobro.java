@@ -665,6 +665,7 @@ public class controlador_forma_cobro extends FORMFORMCO implements ActionListene
                 cargar_comprobante_cliente(vistaForma_Cob.tbl_comprobante,"SERIE",tip_com,serie_com,num_com);
                 vistaForma_Cob.txt_sub_tipo_transacc.setEditable(true);
                 vistaForma_Cob.btn_sub_tip.setEnabled(true);
+                vistaForma_Cob.btn_nuevo.setEnabled(false);
                 vistaForma_Cob.btn_guardar.setEnabled(true);
             }
         }
